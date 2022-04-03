@@ -1,6 +1,0 @@
-{
-	"cmd" :["start", "cmd", "/k", "python.exe","$file"],
-	"selector" : "source.ptython",
-	"shell":true,
-	"working_dir":"$file_dir"
-}
