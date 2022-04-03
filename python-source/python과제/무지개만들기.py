@@ -1,0 +1,56 @@
+rz = 600
+pen_size = 30
+import turtle
+win = turtle.Screen()
+t =turtle.Turtle()
+t.pensize(pen_size)
+t.speed(10)
+
+t.setheading(90)
+t.penup()
+t.setpos(rz/2,0)
+t.pendown()
+t.pencolor('red')
+t.circle(rz/2,180)
+
+t.setheading(90)
+t.penup()
+t.setpos(rz/2-pen_size,0)
+t.pendown()
+t.pencolor('orange')
+t.circle(rz/2-pen_size,180)
+
+t.setheading(90)
+t.penup()
+t.setpos(rz/2-2*pen_size,0)
+t.pendown()
+t.pencolor('yellow')
+t.circle(rz/2-2*pen_size,180)
+
+t.setheading(90)
+t.penup()
+t.setpos(rz/2-3*pen_size,0)
+t.pendown()
+t.pencolor('green')
+t.circle(rz/2-3*pen_size,180)
+
+t.setheading(90)
+t.penup()
+t.setpos(rz/2-4*pen_size,0)
+t.pendown()
+t.pencolor('blue')
+t.circle(rz/2-4*pen_size,180)
+
+t.setheading(90)
+t.penup()
+t.setpos(rz/2-5*pen_size,0)
+t.pendown()
+t.pencolor('navy')
+t.circle(rz/2-5*pen_size,180)
+
+t.setheading(90)
+t.penup()
+t.setpos(rz/2-6*pen_size,0)
+t.pendown()
+t.pencolor('purple')
+t.circle(rz/2-6*pen_size,180)
