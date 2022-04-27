@@ -53,7 +53,7 @@ int main() {
 		cout << v[i] << " ";
 	cout << endl;
 	
-	//.cmpty() 백터가 비어있는지 확인한다.
+	//.empty() 백터가 비어있는지 확인한다.
 	if(!v.empty())
 		cout << "비어있지 않다." << endl;
 	else
