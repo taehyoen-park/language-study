@@ -45,7 +45,6 @@ int main()
 		nodes[i].lc = NULL;
 		nodes[i].rc = NULL;
 	}
-
 	
 	for(i = 1; i < 16; i++)
 	{
