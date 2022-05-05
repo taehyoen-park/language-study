@@ -13,7 +13,7 @@ typedef struct Nodelist{
 	struct NODE *tail;
 }nodelist;
 
-nodelist* createnodelist() //노드 리스트 생성 
+nodelist* create_nodelist() //노드 리스트 생성 
 {
 	nodelist* newnodelist = (nodelist*)malloc(sizeof(nodelist));
 	newnodelist->head = (node*)malloc(sizeof(node));
@@ -29,7 +29,7 @@ nodelist* createnodelist() //노드 리스트 생성
 	return newnodelist;
 }
 
-node* createnode(int data)//노드 생성 
+node* create_node(int data)//노드 생성 
 {
 	node* newnode = (node*)malloc(sizeof(node));
 	newnode->data = data;
@@ -38,7 +38,7 @@ node* createnode(int data)//노드 생성
 	return newnode;
 }
 
-void backaddnode(struct Nodelist *h,struct NODE *a)//맨 뒤에 노드생성 
+void back_add_node(struct Nodelist *h,struct NODE *a)//맨 뒤에 노드생성 
 {
 	node* temp = malloc(sizeof(node));
 	temp = h->head;
@@ -66,7 +66,7 @@ void backaddnode(struct Nodelist *h,struct NODE *a)//맨 뒤에 노드생성
 	free(temp);
 }
 
-void addnode(struct Nodelist *h,struct NODE *a)//맨앞에 생성 
+void add_node(struct Nodelist *h,struct NODE *a)//맨앞에 생성 
 {
 	a->rlink = h->head->rlink;
 	a->rlink->llink = a;
@@ -75,7 +75,7 @@ void addnode(struct Nodelist *h,struct NODE *a)//맨앞에 생성
 	printf("맨앞노드%d추가\n",a->data); 
 }
 
-void deletenode(nodelist *h,node* a)//노드 삭제 
+void delete_node(nodelist *h,node* a)//노드 삭제 
 {
 	node* temp = (node*)malloc(sizeof(node));
 	temp = h->head->rlink;
@@ -90,7 +90,7 @@ void deletenode(nodelist *h,node* a)//노드 삭제
 	
 }
 
-void insertnode(node* target,int data)// 노드 삽입 
+void insert_node(node* target,int data)// 노드 삽입 
 {
 	node* newnode = (node*)malloc(sizeof(node));
 	newnode->data = data;
@@ -108,7 +108,7 @@ void insertnode(node* target,int data)// 노드 삽입
 	printf("%d뒤에 %d삽입\n",target->data,data);
 }
 
-node* searchnode(nodelist* h,int data)//특정 노드 검색 
+node* search_node(nodelist* h,int data)//특정 노드 검색 
 {
 	node* temp = malloc(sizeof(node));
 	temp = h->head->rlink;
@@ -121,7 +121,7 @@ node* searchnode(nodelist* h,int data)//특정 노드 검색
 	return temp;
 }
 
-void printnodelist(nodelist* h,int a)//모든 노드 출력 
+void print_node_list(nodelist* h,int a)//모든 노드 출력 
 {
 	node* temp = (node*)malloc(sizeof(node));
 	
@@ -173,21 +173,21 @@ void freenode(nodelist* h)// 모드 노드 해제
 
 int main()
 {
-	nodelist *A = createnodelist();
+	nodelist *A = create_nodelist();
 	
 	
-	insertnode(A->head,10);
-	backaddnode(A,createnode(30));
-	addnode(A,createnode(20));
-	deletenode(A,searchnode(A,20));
-	insertnode(searchnode(A,30),60);
-	insertnode(searchnode(A,60),80);
-	deletenode(A,searchnode(A,30));
-	backaddnode(A,createnode(100));
+	insert_node(A->head,10);
+	back_add_node(A,create_node(30));
+	add_node(A,create_node(20));
+	delete_node(A,search_node(A,20));
+	insert_node(search_node(A,30),60);
+	insert_node(search_node(A,60),80);
+	delete_node(A,search_node(A,30));
+	back_add_node(A,create_node(100));
 	
-	printnodelist(A,1);
+	print_node_list(A,1);
 	freenode(A);
-	printnodelist(A,1);
+	print_node_list(A,1);
 	
 	return 0;
 }	

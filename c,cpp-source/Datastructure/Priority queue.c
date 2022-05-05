@@ -135,21 +135,21 @@ int main()
 	int i;
 	queue *q = createqueue();
 	
-	for(i = 1; i < 100; i++)
-		push(q,i);
-	/*
+//	for(i = 1; i < 100; i++)
+//		push(q,i);
+	
 	push(q,5);
 	push(q,6);
 	push(q,10);
 	push(q,90);
-	pop(q);
-	pop(q);
+	//pop(q);
+	//pop(q);
 	push(q,7);
 	push(q,78);
-	pop(q);
+	//pop(q);
 	push(q,30);
-	pop(q);
-	*/
+	//pop(q);
+	
 	printqueue(q);
 	freequeue(q);
 	printqueue(q);
