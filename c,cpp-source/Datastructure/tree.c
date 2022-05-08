@@ -48,6 +48,8 @@ int main()
 	
 	for(i = 1; i < 16; i++)
 	{
+//		nodes[i].lc = &nodes[i * 2 + 1];
+//		nodes[i].rc = &nodes[i * 2 + 2];
 		if(i % 2 == 0)
 			nodes[i/2].lc = &nodes[i];
 		else
