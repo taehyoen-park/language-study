@@ -11,9 +11,9 @@ int main()
 	
 	cout << str << endl;
 	cout << str2 << endl;
-	cout << "strê³¼ str2ê²°í•© " << str+str2 << endl;
-	cout << "str == str2ê°€? (ë¬¸ìì—´ ë¹„êµ)" << (str == str2) << endl; 
-	cout << "str != str2ê°€? (ë¬¸ìì—´ ë¹„êµ)" << (str != str2) << endl;
+	cout << "str°ú str2°áÇÕ " << str+str2 << endl;
+	cout << "str == str2°¡? (¹®ÀÚ¿­ ºñ±³)" << (str == str2) << endl; 
+	cout << "str != str2°¡? (¹®ÀÚ¿­ ºñ±³)" << (str != str2) << endl;
 	
 	//str.length()
 	string s = "Hello, World";
@@ -28,9 +28,9 @@ int main()
 	s = "Hello, World";*/
 	
 	//str.find()
-	cout << "s = Hello, world, s.find(""World"") = " << s.find("World") << "ë²ˆì§¸ ë¶€í„° ë‚˜ì˜¨ë‹¤."<< endl;
-	cout << "s = Hello, world, s.find('o') = " << s.find('o') << "ë²ˆì§¸ì— ìˆë‹¤." << endl;
-	cout << "s = Hello, world, s.find('W',4) = " << s.find('W',4) << "ë²ˆì§¸ì— ìˆë‹¤ #4ë²ˆì§¸ ë¶€í„° ì‹œì‘í•´ Wë¥¼ ì°¾ëŠ”ë‹¤." << endl << endl; 
+	cout << "s = Hello, world, s.find(""World"") = " << s.find("World") << "¹øÂ° ºÎÅÍ ³ª¿Â´Ù."<< endl;
+	cout << "s = Hello, world, s.find('o') = " << s.find('o') << "¹øÂ°¿¡ ÀÖ´Ù." << endl;
+	cout << "s = Hello, world, s.find('W',4) = " << s.find('W',4) << "¹øÂ°¿¡ ÀÖ´Ù #4¹øÂ° ºÎÅÍ ½ÃÀÛÇØ W¸¦ Ã£´Â´Ù." << endl << endl; 
 	
 	//str.insert()
 	s.insert(1,3,'E');
