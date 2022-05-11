@@ -1,7 +1,5 @@
 #include<stdio.h>
 
-
-
 int binary_search(int arr[],int start,int end,int target)
 {
 	while(start < end)

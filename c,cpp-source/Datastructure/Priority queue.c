@@ -1,6 +1,15 @@
 #include<stdio.h>
+#include<stdbool.h>
+#include<windows.h> 
 #include<stdlib.h>
 
+/*
+	C언어로 우선순위 큐만들기 
+	만든사람:taehyeon-park 
+	깃허브 : https://github.com/taehyoen-park/language-study/blob/master/c%2Ccpp-source/Datastructure/Priority%20queue.c
+*/
+
+bool Power = true;
 typedef struct QUEUENODE{
 	int data;
 	struct QUEUENODE *pre;
@@ -10,13 +19,27 @@ typedef struct QUEUE{
 	struct QUEUENODE *head;
 }queue;
 
+queue* createqueue();
+void Run();
+void push(queue *q,int x);
+void pop(queue *q);
+int empty(queue* q);
+void printqueue(queue *q);
+int	front(queue *q);
+void freequeue(queue *q);
+
+int main()
+{
+	Run();	
+	return 0;
+}
+
 queue* createqueue()
 {
 	queue* q = (queue*)malloc(sizeof(queue));
 	q->head = NULL;
 	return q;
 }
-
 //노드를 하나를 크기순으로 집어넣는다. 
 void push(queue *q,int x)
 {
@@ -28,12 +51,10 @@ void push(queue *q,int x)
 	temp2 = NULL;
 	newnode->data = x;
 	
-
 	if(q->head == NULL)
 	{
 		q->head = newnode;
 		newnode->pre = NULL;
-		
 	}
 		
 	else
@@ -128,31 +149,62 @@ void freequeue(queue *q)
 	free(temp);
 	
 }
-
-
-int main()
+void print_Menu()
 {
-	int i;
+	printf("		=====Menu=====\n");
+	printf("		 0. show menu\n");
+	printf("		 1. push\n");
+	printf("		 2. pop\n");
+	printf("		 3. print_Queue\n");
+	printf("		 4. Delete_Queue\n");
+	printf("		 5. clear Display\n");
+	printf("		 6. Exit\n");
+}
+void Run()
+{
 	queue *q = createqueue();
-	
-//	for(i = 1; i < 100; i++)
-//		push(q,i);
-	
-	push(q,5);
-	push(q,6);
-	push(q,10);
-	push(q,90);
-	//pop(q);
-	//pop(q);
-	push(q,7);
-	push(q,78);
-	//pop(q);
-	push(q,30);
-	//pop(q);
-	
-	printqueue(q);
-	freequeue(q);
-	printqueue(q);
-	
-	return 0;
+	int data;
+	print_Menu();
+	while(Power)
+	{
+		int Choice;
+		printf("---->select : ");
+		scanf("%d",&Choice);
+		switch (Choice)
+		{
+			case 0:
+				print_Menu();
+				break;
+			case 1:
+				printf("Data input : ");
+				scanf("%d",&data);
+				push(q,data);
+				break;
+			case 2:
+				if(empty(q))
+					printf("queue is empty.\n");
+				else
+				{
+					printf("%d 삭제",front(q));
+					pop(q);
+				}
+				break;
+			case 3:
+				printqueue(q);
+				break;
+			case 4:
+				freequeue(q);
+				break;
+			case 5:
+				system("cls");
+				print_Menu();
+				break;
+			case 6:
+				Power = !Power;
+				break;
+			default:
+				printf("!!! Wrong entered !!!\n\n");
+				break;
+		}
+	}
 }

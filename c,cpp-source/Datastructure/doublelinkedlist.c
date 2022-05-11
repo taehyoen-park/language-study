@@ -1,7 +1,16 @@
 #include<stdio.h>
+#include<windows.h>
 #include<string.h>
 #include<stdlib.h>
+#include<stdbool.h>
 
+/*
+	C언어로 Doublelinkedlist구현해보기
+	만든사람: taehyeon-park
+	깃 허브 :  https://github.com/taehyoen-park/language-study/blob/master/c%2Ccpp-source/Datastructure/doublelinkedlist.c
+
+*/
+bool Power = true;
 typedef struct NODE{
 	struct NODE* llink;
 	int data;
@@ -13,6 +22,22 @@ typedef struct Nodelist{
 	struct NODE *tail;
 }nodelist;
 
+void back_add_node(struct Nodelist *h,struct NODE *a);
+void add_node(struct Nodelist *h,struct NODE *a);
+void insert_node(node* target,int data);
+node* search_node(nodelist* h,int data);
+void print_node_list(nodelist* h,int a);
+void delete_node(nodelist *h,node* a);
+nodelist* create_nodelist();
+node* create_node(int data);
+void freenode(nodelist* h);
+void print_menu();
+void Run();
+
+int main(){
+	Run();return 0;
+}	
+		
 nodelist* create_nodelist() //노드 리스트 생성 
 {
 	nodelist* newnodelist = (nodelist*)malloc(sizeof(nodelist));
@@ -25,9 +50,10 @@ nodelist* create_nodelist() //노드 리스트 생성
   	newnodelist->head->llink = NULL;
    	newnodelist->tail->rlink = NULL;
    	newnodelist->tail->llink = newnodelist->head;
-   	printf("------------꼬리와 머리노드는 데이터가 없다(0).----------\n\n");
+  	//printf("------------꼬리와 머리노드는 데이터가 없다(0).----------\n\n");
 	return newnodelist;
 }
+
 
 node* create_node(int data)//노드 생성 
 {
@@ -53,7 +79,19 @@ void back_add_node(struct Nodelist *h,struct NODE *a)//맨 뒤에 노드생성
 	else
 	{
 		while(temp->rlink != h->tail)
+		{
+			if(temp->rlink->data == a->data)
+			{
+				printf("%d already exists\n",a->data);
+				temp = NULL;
+				a = NULL;
+				free(temp);
+				free(a);
+				return;
+			} 
 			temp = temp->rlink;
+		}
+			
 			
 		a->rlink = h->tail;
 		a->llink = temp;
@@ -62,18 +100,35 @@ void back_add_node(struct Nodelist *h,struct NODE *a)//맨 뒤에 노드생성
 	}
 	
 	temp = NULL;
-	printf("맨뒤노드%d추가\n",a->data);
+//	printf("맨뒤노드%d추가\n",a->data);
 	free(temp);
 }
 
+
 void add_node(struct Nodelist *h,struct NODE *a)//맨앞에 생성 
 {
+	node* temp = malloc(sizeof(node));
+	temp = h->head;
+	while(temp->rlink != h->tail)
+	{
+		if(temp->rlink->data == a->data)
+		{
+			printf("%d already exists\n",a->data);
+			temp = NULL;
+			a = NULL;
+			free(temp);
+			free(a);
+			return;
+		}
+		temp = temp->rlink;
+	}
 	a->rlink = h->head->rlink;
 	a->rlink->llink = a;
 	h->head->rlink = a;
 	a->llink = h->head;
-	printf("맨앞노드%d추가\n",a->data); 
+//	printf("맨앞노드%d추가\n",a->data); 
 }
+
 
 void delete_node(nodelist *h,node* a)//노드 삭제 
 {
@@ -82,13 +137,17 @@ void delete_node(nodelist *h,node* a)//노드 삭제
 	
 	while(temp != a)
 		temp = temp->rlink;
-	
+//	if(temp == NULL)
+//	{
+//		printf("%d is not exits\n",a->data);
+//		return;
+//	}
 	temp->llink->rlink = temp->rlink;
 	temp->rlink->llink = temp->llink;
-	printf("%d삭제\n",a->data);
+//	printf("%d삭제\n",a->data);
 	free(temp);
-	
 }
+
 
 void insert_node(node* target,int data)// 노드 삽입 
 {
@@ -105,21 +164,26 @@ void insert_node(node* target,int data)// 노드 삽입
 	newnode->rlink->llink = newnode;
 	newnode->llink = target;
 	target->rlink = newnode;
-	printf("%d뒤에 %d삽입\n",target->data,data);
+//	printf("%d뒤에 %d삽입\n",target->data,data);
 }
+
 
 node* search_node(nodelist* h,int data)//특정 노드 검색 
 {
+	if(h->head->rlink == h->tail)
+		return NULL;
 	node* temp = malloc(sizeof(node));
 	temp = h->head->rlink;
+
 	while(temp->data != data)
 	{
-		temp = temp->rlink;
 		if(temp == h->tail)
 			return NULL;
+		temp = temp->rlink;
 	}
 	return temp;
 }
+
 
 void print_node_list(nodelist* h,int a)//모든 노드 출력 
 {
@@ -128,7 +192,7 @@ void print_node_list(nodelist* h,int a)//모든 노드 출력
 	
 	if(a == 1)
 	{
-		printf("linklist:");
+		printf("linklist : ");
 		temp = h->head->rlink;
 		while(temp != h->tail)
 		{
@@ -152,6 +216,7 @@ void print_node_list(nodelist* h,int a)//모든 노드 출력
 	free(temp);
 }
 
+
 void freenode(nodelist* h)// 모드 노드 해제 
 {
 	node *fnode = malloc(sizeof(node));
@@ -168,28 +233,85 @@ void freenode(nodelist* h)// 모드 노드 해제
    	
    	fnode = NULL;
    	free(fnode);
-   	printf("꼬리와 머리를 제외한 모든노드를 해제\n");
+   //	printf("꼬리와 머리를 제외한 모든노드를 해제\n");
 }
 
-int main()
+void print_menu()
 {
-	nodelist *A = create_nodelist();
-	
-	
-	insert_node(A->head,10);
-	back_add_node(A,create_node(30));
-	add_node(A,create_node(20));
-	delete_node(A,search_node(A,20));
-	insert_node(search_node(A,30),60);
-	insert_node(search_node(A,60),80);
-	delete_node(A,search_node(A,30));
-	back_add_node(A,create_node(100));
-	
-	print_node_list(A,1);
-	freenode(A);
-	print_node_list(A,1);
-	
-	return 0;
-}	
-		
+	printf("		 ============Menu============\n");
+	printf("		 1. Add Head Data.\n");
+	printf("		 2. Add Tail Data.\n");
+	printf("		 3. Delete Data.\n");
+	printf("		 4. Insert Data.\n");
+	printf("		 5. Print_LinkedList.\n");
+	printf("		 6. Delete_LinkedList.\n");
+	printf("		 7. clear Display.\n");
+	printf("		 8. Exit.\n");
+}
+void Run()
+{
+	nodelist *list = create_nodelist();
+	print_menu();
+	while(Power)
+	{
+		int data,Choice,insert_back,print_choice,delete_data;
+		printf("select----> : ");
+		scanf("%d",&Choice);
+		switch(Choice)
+		{
+			case 1:
+				printf("Data input : ");
+				scanf("%d",&data);
+				add_node(list,create_node(data));
+				break;
+			case 2:
+				printf("Data input : ");
+				scanf("%d",&data);
+				back_add_node(list,create_node(data));
+				break;
+			case 3:
+				printf("Select data to delete : ");
+				scanf("%d",&delete_data);
+				delete_node(list,search_node(list,delete_data));
+				break;
+			case 4:
+				printf("Select the previous node to be inserted : ");
+				scanf("%d",&insert_back);
+				if(search_node(list,insert_back) == NULL)
+				{
+					printf("%d does not exist.\n",insert_back);
+					continue;
+				}
+				printf("Data input : ");
+				scanf("%d",&data);
+				insert_node(search_node(list,insert_back),data);
+				break;
+			case 5:
+				printf("	  1.From the Head\n");
+				printf("	  2.From the Tail\n");
+				printf("---->>> : ");
+				scanf("%d",&print_choice);
+				if(print_choice == 1)
+					print_node_list(list,1);
+				else if(print_choice == 2)
+					print_node_list(list,0);
+				else
+					printf("Wrong choice!!\n");
+				break;
+			case 6:
+				freenode(list);
+				break;
+			case 7:
+				system("cls");
+				print_menu();
+				break;
+			case 8:
+				Power = !Power;
+				break;
+			default:
+				printf("Wrong choice!!\n");
+				break;
+		}
+	}
+}
 
