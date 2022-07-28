@@ -5,17 +5,18 @@
 
 using namespace std;
 
-int id,d[Max];
-bool finished[Max];
-vector<int> a[Max];
-vector<vector<int>> scc;
+int id,d[Max]; //고유아이디 할당,방문처리  
+bool finished[Max]; // 고유아이디가 연결처리를 끝냈는지 체크 
+vector<int> a[Max]; //연결정보 
+vector<vector<int>> scc; //강한 연결요소끼리의 배열 
 stack<int>s;
 
+// 총 점점의 갯수 만큼 실행된다. 
 int dfs(int x){
-	d[x] = ++id;
-	s.push(x);
+	d[x] = ++id; 
+	s.push(x);  
 	
-	int parent = d[x];
+	int parent = d[x]; 
 	for(unsigned int i = 0 ; i < a[x].size(); i++){
 		int index = a[x][i];
 		if(d[index] == 0) parent = min(parent,dfs(index));
@@ -39,24 +40,15 @@ int dfs(int x){
 
 int main()
 {
-	int v = 11;
-	a[1].push_back(2);
-	a[2].push_back(3);
-	a[3].push_back(1);
+	int v = 10;
 	
-	a[4].push_back(2);
-	a[4].push_back(5);
-	
-	a[5].push_back(7);
-	a[6].push_back(5);
-	a[7].push_back(6);
-	a[8].push_back(5);
-	
-	a[8].push_back(9);
-	a[9].push_back(10);
-	a[10].push_back(11);
-	a[11].push_back(3);
-	a[11].push_back(8);
+	a[1].push_back(6);
+	a[1].push_back(5);
+	a[3].push_back(4);
+	a[6].push_back(10);
+	a[9].push_back(7);
+//	a[5].push_back(6);
+//	a[6].push_back(4);
 	
 	for(int i = 1; i <= v; i++)
 		if(d[i] == 0) dfs(i);	

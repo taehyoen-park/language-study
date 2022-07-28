@@ -8,7 +8,7 @@
 	C언어로 Doublelinkedlist구현해보기
 	만든사람: taehyeon-park
 	깃 허브 :  https://github.com/taehyoen-park/language-study/blob/master/c%2Ccpp-source/Datastructure/doublelinkedlist.c
-
+	//미완성 
 */
 bool Power = true;
 typedef struct NODE{
