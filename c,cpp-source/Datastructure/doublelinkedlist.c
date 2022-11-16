@@ -8,7 +8,6 @@
 	C언어로 Doublelinkedlist구현해보기
 	만든사람: taehyeon-park
 	깃 허브 :  https://github.com/taehyoen-park/language-study/blob/master/c%2Ccpp-source/Datastructure/doublelinkedlist.c
-	//미완성 
 */
 bool Power = true;
 typedef struct NODE{
@@ -35,7 +34,8 @@ void print_menu();
 void Run();
 
 int main(){
-	Run();return 0;
+	Run();
+	return 0;
 }	
 		
 nodelist* create_nodelist() //노드 리스트 생성 
@@ -50,7 +50,6 @@ nodelist* create_nodelist() //노드 리스트 생성
   	newnodelist->head->llink = NULL;
    	newnodelist->tail->rlink = NULL;
    	newnodelist->tail->llink = newnodelist->head;
-  	//printf("------------꼬리와 머리노드는 데이터가 없다(0).----------\n\n");
 	return newnodelist;
 }
 
@@ -100,7 +99,6 @@ void back_add_node(struct Nodelist *h,struct NODE *a)//맨 뒤에 노드생성
 	}
 	
 	temp = NULL;
-//	printf("맨뒤노드%d추가\n",a->data);
 	free(temp);
 }
 
@@ -126,7 +124,6 @@ void add_node(struct Nodelist *h,struct NODE *a)//맨앞에 생성
 	a->rlink->llink = a;
 	h->head->rlink = a;
 	a->llink = h->head;
-//	printf("맨앞노드%d추가\n",a->data); 
 }
 
 
@@ -137,14 +134,9 @@ void delete_node(nodelist *h,node* a)//노드 삭제
 	
 	while(temp != a)
 		temp = temp->rlink;
-//	if(temp == NULL)
-//	{
-//		printf("%d is not exits\n",a->data);
-//		return;
-//	}
+
 	temp->llink->rlink = temp->rlink;
 	temp->rlink->llink = temp->llink;
-//	printf("%d삭제\n",a->data);
 	free(temp);
 }
 
@@ -233,7 +225,6 @@ void freenode(nodelist* h)// 모드 노드 해제
    	
    	fnode = NULL;
    	free(fnode);
-   //	printf("꼬리와 머리를 제외한 모든노드를 해제\n");
 }
 
 void print_menu()
@@ -248,6 +239,7 @@ void print_menu()
 	printf("		 7. clear Display.\n");
 	printf("		 8. Exit.\n");
 }
+
 void Run()
 {
 	nodelist *list = create_nodelist();
@@ -272,7 +264,11 @@ void Run()
 			case 3:
 				printf("Select data to delete : ");
 				scanf("%d",&delete_data);
-				delete_node(list,search_node(list,delete_data));
+				node* a = search_node(list,delete_data);
+				if(a == NULL){printf("%d is not exits\n",delete_data);}
+				else{delete_node(list,a);}
+				a = NULL;
+				free(a);
 				break;
 			case 4:
 				printf("Select the previous node to be inserted : ");
