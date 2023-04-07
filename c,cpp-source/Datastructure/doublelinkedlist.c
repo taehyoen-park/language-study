@@ -306,6 +306,8 @@ void Run()
 				break;
 			default:
 				printf("Wrong choice!!\n");
+				fflush(stdin);
+				//while ((Choice = getchar()) != '\n' && Choice != EOF);
 				break;
 		}
 	}
