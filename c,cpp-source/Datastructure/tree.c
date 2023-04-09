@@ -1,6 +1,6 @@
 #include<stdio.h>
 
-typedef struct node *treepointer;
+typedef struct node* treepointer;
 typedef struct node {
 	int data;
 	treepointer lc,rc;

@@ -8,7 +8,7 @@
 #define StartNodeNumber 1
 
 /*
-	C언어로 segmenttree구현해보기
+	C++언어로 segmenttree구현해보기
 	만든사람: taehyeon-park
 	깃 허브 :  https://github.com/taehyoen-park/language-study/blob/master/c%2Ccpp-source/Datastructure/segmenttree.cpp
 */
@@ -185,7 +185,6 @@ void PrintSegmentTree()
 		printf("%d.Data:%lld ", (i - segmentTree.begin()) + 1, (*i));
 		if ((i - segmentTree.begin() + 1) % 6 == 0) printf("\n");
 	}
-
 	printf("\n");
 }
 
@@ -219,6 +218,7 @@ void UpdateTreeSize()
 	segmentTree.resize(tree_size);
 }
 
+// 구간합,구간의 최솟값,구간의 최댓값을 요청하는 함수 
 void QueryRequest()
 {
 	ll i, Sum = 0, leftbound, rightbound;
