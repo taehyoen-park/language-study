@@ -1,6 +1,13 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+/*
+	C언어로 queue만들기 
+	만든사람:taehyeon-park 
+	깃허
+	브 : https://github.com/taehyoen-park/language-study/blob/master/c%2Ccpp-source/Datastructure/queue.c
+*/
+
 typedef struct QUEUENODE{
 	int data;
 	struct QUEUENODE *pre;
@@ -104,9 +111,6 @@ int main()
 	int i;
 	queue *q = createqueue();
 	
-//	for(i = 1; i < 101; i++)
-//		push(q,i);
-
 	
 	push(q,5);
 	push(q,6);

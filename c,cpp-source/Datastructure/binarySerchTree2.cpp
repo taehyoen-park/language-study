@@ -1,4 +1,3 @@
-
 #include<iostream>
 #include<vector>
 #include<limits.h>
@@ -6,7 +5,7 @@
 #define BinarySearchTree BST
 
 /*
-	C++언어로 binarySearchTree구현해보기 
+	C++언어로 binarySearchTree구현해보기 (반복문) 
 	만든사람: taehyeon-park
 	깃 허브 :  https://github.com/taehyoen-park/language-study/blob/master/c%2Ccpp-source/Datastructure/BinarySearchTree.cpp
 */
@@ -16,7 +15,6 @@ typedef long long ll;
 class node;
 class tree;
 int Choice;
-ll InputData,DataCount;
 bool Power = true;
 
 typedef node* Node;
@@ -31,21 +29,17 @@ public:
 typedef tree* Tree;
 class tree{
 public:
-	Node
-	root;
-	tree(): root(nullptr){}
+	Node root;
+	tree():root(nullptr){}
 };
 
 Tree MakeBinarySearchTree();
-void DeleteNode(Tree& BST,Node& RootNode,ll target);
-void InsertNode(Node& RootNode,ll data);
-Node SearchNode(Node& RootNode,ll data);
+void DeleteNode(Tree BST);
+void InsertNode(Tree Bst);
+Node FindNode(Tree BST,ll target);
 void Print_BinarySearchTree(Node root);
 void PrintMenu();
-Node GetParent(Node &RootNode,Node &TargetNode);
-Node GetRightSubTreeMinNode(Node &RootNode);
-void DeleteBinarySearchTree(Node target);
-void SetNullChild(Node& TargetNode);
+Node GetParent(Tree BST,ll target);
 
 int main()
 {
@@ -58,36 +52,20 @@ int main()
 		switch(Choice)
 		{
 			case 1:
-				cout << "How many data do you want to input? : ";
-				scanf("%lld", &DataCount);
-				printf("Data Input : ");
-				for(int i = 0; i < DataCount;i++)
-				{
-					scanf("%lld",&InputData);
-					if(SearchNode(BST->root,InputData) != nullptr) 
-						printf("The data already exists\n");
-					else 
-						InsertNode(BST->root,InputData);
-				}
+				
+				InsertNode(BST);
 				break;
 			case 2:
+				ll target;
 				printf("Please enter the data to search for : ");
-				scanf("%lld",&InputData);
-				if(SearchNode(BST->root,InputData) == nullptr) 
-					printf("That data not exists.\n");
-				else 
-					printf("That data exists.\n");
+				scanf("%lld",&target);
+				if(FindNode(BST,target) == nullptr) printf("That data not exists.\n");
+				else printf("That data exists.\n");
 				break;
 			case 3:
-				printf("Please enter the data to be deleted : ");
-				scanf("%lld",&InputData);
-				if(SearchNode(BST->root,InputData) == nullptr) 
-					printf("Data not found for deletion.\n");
-				else 
-					DeleteNode(BST,BST->root,InputData);
+				DeleteNode(BST);
 				break;
 			case 4:
-				printf("BST Data : ");
 				Print_BinarySearchTree(BST->root);
 				printf("\n");
 				break;
@@ -95,7 +73,7 @@ int main()
 				system("cls");
 				break;
 			case 6:
-				DeleteBinarySearchTree(BST->root);
+				//DeleteBinarySearchTree(BST->root);
 				delete BinarySearchTree;
 				Power = !Power;
 				break;
@@ -108,159 +86,193 @@ int main()
 	return 0;
 }
 
-void InsertNode(Node& RootNode,ll data)
+Tree MakeBinarySearchTree()
 {
-	if(RootNode == nullptr) RootNode = new node(data);
-	else if(RootNode->Data < data) InsertNode(RootNode->Rc,data);
-	else InsertNode(RootNode->Lc,data);
+	Tree BinarySeachTree = new tree;
+	return BinarySeachTree;
 }
 
-Node SearchNode(Node& RootNode,ll Data)
+Node FindNode(Tree BST,ll target)
 {
-	Node result = nullptr;
-	if(RootNode == nullptr) return nullptr;
-	else if(RootNode->Data == Data) return RootNode;
-	else if(RootNode->Data < Data) result = SearchNode(RootNode->Rc,Data);
-	else result = SearchNode(RootNode->Lc,Data);
-	return result;
-}
-
-void DeleteNode(Tree& BST,Node &RootNode,ll target)
-{
-	if(RootNode == nullptr) return;
-	else if(RootNode->Data  == target)
+	Node root = BST->root;
+	while(root->Data != target)
 	{
-		Node BSTRootNode = BST->root; 
-		Node DeleteNode = RootNode;
-		Node DeleteNodeRoot = GetParent(BSTRootNode,RootNode);
-		
-		// 삭제할 노드의 자식이 Rc,Lc 둘다 있을경우 
-		if(RootNode->Rc != nullptr && RootNode->Lc != nullptr)
+		if(root->Data < target)
 		{
-			Node RightSubTreeMinNode = GetRightSubTreeMinNode(DeleteNode);
-			Node RightSubTreeMinNodeRc = RightSubTreeMinNode->Rc;
-			Node RightSubTreeMinNodeRoot = GetParent(BSTRootNode,RightSubTreeMinNode);
-			
-			// 삭제할 노드가 트리의 Root인경우 
-		//	if(DeleteNode == BSTRootNode) && DeleteNode != RightSubTreeMinNode) 
-				
-			
-			// 오른쪽 서브트리의 최솟값이 오른쪽 서브트리의 Root인경우 
-			if(DeleteNode->Rc == RightSubTreeMinNode)
-			{
-				//삭제할 노드의 자식들을 오른쪽 서브트리의 최소노드에게 이어준다 
-				RightSubTreeMinNode->Lc = DeleteNode->Lc;
-				//오른쪽 서브트리의 최소노드와 삭제할 노드의 부모와 이어준다 
-				if(DeleteNodeRoot->Data < target) 
-					DeleteNodeRoot->Rc = RightSubTreeMinNode;
-				else if(DeleteNodeRoot->Data > target) 
-					DeleteNodeRoot->Lc = RightSubTreeMinNode;
-				else
-					BST->root = RightSubTreeMinNode;
-				SetNullChild(DeleteNode);
-				delete DeleteNode;
-				return;
-			}
-			
-			else
-			{
-				 //삭제할 노드의 자식들을 오른쪽 서브트리의 최소노드에게 이어준다 
-				RightSubTreeMinNode->Rc = DeleteNode->Rc;
-				RightSubTreeMinNode->Lc = DeleteNode->Lc;
-				//오른쪽 서브트리의 최소노드와 삭제할 노드의 부모와 이어준다
-				if(DeleteNodeRoot->Data < target) 
-					DeleteNodeRoot->Rc = RightSubTreeMinNode;
-				else if(DeleteNodeRoot->Data > target)
-					DeleteNodeRoot->Lc = RightSubTreeMinNode;
-				else 
-					BST->root = RightSubTreeMinNode;
-				// 오른쪽 서브트리의 최소노드의 오른쪽 자식을 최소노드의 부모랑 이어준다. 
-				RightSubTreeMinNodeRoot->Lc = RightSubTreeMinNodeRc;
-				SetNullChild(DeleteNode);
-				delete DeleteNode;
-				return;
-			}
-			return;
+			if(root->Rc == nullptr) return nullptr;
+			root = root->Rc;
 		}
-		
-		// 삭제할 노드가 리프노드인 경우 
-		else if(RootNode->Rc == nullptr && RootNode->Lc == nullptr)
-		{
-			if(DeleteNodeRoot->Data < target)
-				DeleteNodeRoot->Rc = nullptr;
-			else if(DeleteNodeRoot->Data > target)
-				DeleteNodeRoot->Lc = nullptr;
-			else 
-				BST->root = nullptr;
-			delete DeleteNode;
-			return;
-		}
-		
-		// 삭제할 노드의 자식이 1개밖에 없을 경우 
+			
 		else
 		{
-			//삭제할 노드의 자식이 오른쪽에 자식이 있을경우 
-			if(DeleteNode->Rc != nullptr)
+			if(root->Lc == nullptr) return nullptr;
+			root = root->Lc;
+		}
+	}
+	return root;
+}
+
+void InsertNode(Tree BST)
+{
+	ll data;
+	printf("Data Input : ");
+	scanf("%lld", &data);
+	Node new_node = new node(data);
+	Node root = BST->root;
+	
+	if(root == nullptr)
+	{
+		BST->root = new_node;
+		return;
+	}
+	while(true)
+	{
+		if(root->Data < new_node->Data)
+		{
+			if(root->Rc == nullptr)
 			{
-				if(DeleteNodeRoot->Data < target)
-					DeleteNodeRoot->Rc = DeleteNode->Rc;
-				else if(DeleteNodeRoot->Data > target)
-					DeleteNodeRoot->Lc = DeleteNode->Rc;
-				else 
-					BST->root = DeleteNode->Rc;
+				root->Rc = new_node;
+				break;
 			}
-			else
-			{
-				if(DeleteNodeRoot->Data < target)
-					DeleteNodeRoot->Rc = DeleteNode->Lc;
-				else if(DeleteNodeRoot->Data > target)
-					DeleteNodeRoot->Lc = DeleteNode->Lc;
-				else
-					BST->root = DeleteNode->Lc;
+			else root = root->Rc;
+		}
+		else
+		{	
+			if(root->Lc == nullptr)
+			{	
+				root->Lc = new_node;
+				break;
 			}
-			SetNullChild(DeleteNode);
-			delete DeleteNode;
-			return;
+			else root = root->Lc;
+		}
+	}
+}
+
+void DeleteNode(Tree BST)
+{
+	ll target;
+	printf("Please enter the data to be deleted : ");
+	scanf("%lld",&target);
+	Node TargetNode = FindNode(BST,target);
+	
+	//삭제할려고 하는 노드가 존재하지 않을 때 
+	if(TargetNode == nullptr)
+	{
+		printf("The data to be deleted does not exist.\n");
+		return; 
+	}
+	
+	//삭제할려고 하는 노드가 왼쪽,오른쪽 자식이 둘다 존재할 때 
+	if(TargetNode->Rc != nullptr && TargetNode->Lc != nullptr)
+	{
+		Node RightSubTreeRoot = TargetNode->Rc;
+		Node RightSubTree_MinChild = TargetNode->Rc;
+		
+		// 삭제할의 오른쪽 서브 트리에서 가장 작은 값을 RightSubTree_MinChild에 저장한다. 
+		while(RightSubTree_MinChild->Lc != nullptr)
+			RightSubTree_MinChild = RightSubTree_MinChild->Lc;
+		
+		//삭제할 노드의 오른쪽 서브트리의 루트노드가 가장 작은 노드일때 
+		if(RightSubTreeRoot == RightSubTree_MinChild)
+		{
+			TargetNode->Data = RightSubTree_MinChild->Data;
+			TargetNode->Rc = RightSubTree_MinChild->Rc;
+			RightSubTree_MinChild->Rc = nullptr;
+			delete RightSubTree_MinChild;
+		}
+		
+		else
+		{
+			// RightSubTree_MinChild의 부모를 찾아서 RightSubTree에 넣는다. 
+			RightSubTreeRoot = GetParent(BST,RightSubTree_MinChild->Data);
+			
+			//RightSubTree_MinChild의 오른쪽 서브 트리를 자신의 부모 RightSubTree의 왼쪽 서브트리에 넣는다.
+			TargetNode->Data = RightSubTree_MinChild->Data;	
+			RightSubTreeRoot->Lc = RightSubTree_MinChild->Rc;
+			delete RightSubTree_MinChild;
 		}
 	}
 	
-	else if(RootNode->Data < target) DeleteNode(BST,RootNode->Rc,target);
-	else DeleteNode(BST,RootNode->Lc,target);
-	return;
+	//삭제할려고 하는 노드가 왼쪽,오른쪽 자식이 둘다 존재할 때 or 돌중에 하나 존재할 때 
+	else
+	{
+		//지울 노드의 부모를 구함 
+		Node TargetNodeRoot = GetParent(BST,target);
+		
+		//지울 노드가 리프노드일때 
+		if(TargetNode->Rc == nullptr && TargetNode->Lc == nullptr)
+		{
+			if(TargetNodeRoot->Data < target) TargetNodeRoot->Rc = nullptr;
+			else TargetNodeRoot->Lc = nullptr;
+			delete TargetNode;
+			return;
+		}
+		
+		// ---- 삭제할 노드가 왼쪽이나 오른쪽중 하나의 자식을 가지고 있을 때 ---- //
+		
+		//지울노드의 부모가 루트노드일때 
+		if(TargetNodeRoot == BST->root) 
+		{
+			if(BST->root->Rc != nullptr)
+			{
+				BST->root = TargetNode->Rc;
+				delete TargetNode;
+				return;
+			}
+			else
+			{
+				BST->root = TargetNode->Lc;
+				delete TargetNode;
+				return;
+			}
+		}
+		
+		//지울노드의 오른쪽 서브트리에 노드가 존재함 (왼쪽서브트리는 아무것도 존재하지않음) 
+		if(TargetNode->Rc != nullptr)
+		{	
+			//지울노드부모의 오른쪽이 지울노드일때 
+			if(TargetNodeRoot->Data < target) TargetNodeRoot->Rc = TargetNode->Rc;
+			else TargetNodeRoot->Lc = TargetNode->Rc;
+			delete TargetNode;
+		}
+		
+		else
+		{
+			if(TargetNodeRoot->Data < target) TargetNodeRoot->Rc = TargetNode->Lc;
+			else TargetNodeRoot->Lc = TargetNode->Lc;
+			delete TargetNode;
+		}
+		
+	}
 }
 
-void SetNullChild(Node& TargetNode)
+Node GetParent(Tree BST,ll target)
 {
-	TargetNode->Rc = nullptr;
-	TargetNode->Lc = nullptr;
-	return;
+	Node TargetNodeRoot = BST->root;
+	Node TargetNode = BST->root;
+	//지울 노드의 부모를 찾는다
+	while(TargetNode->Data != target)
+	{
+		TargetNodeRoot = TargetNode;
+		if(TargetNode->Data < target)
+		{
+			if(TargetNode->Rc == nullptr) break;
+			TargetNode = TargetNode->Rc;
+		}
+			
+		else
+		{
+			if(TargetNode->Lc == nullptr) break;
+			TargetNode = TargetNode->Lc;
+		}
+	}
+	return TargetNodeRoot;
 }
 
-Node GetRightSubTreeMinNode(Node &RootNode)
-{
-	Node RightSubTree_MinChild = RootNode->Rc;
-	while(RightSubTree_MinChild->Lc != nullptr)
-		RightSubTree_MinChild = RightSubTree_MinChild->Lc;
-	return RightSubTree_MinChild;
-}
-
-
-Node GetParent(Node &RootNode,Node &TargetNode)
-{
-	Node result = nullptr;
-	if(RootNode == nullptr) return nullptr;
-	else if(RootNode == TargetNode) return RootNode;
-	else if(RootNode->Lc == TargetNode || RootNode->Rc == TargetNode) return RootNode;
-	else if(RootNode->Data < TargetNode->Data) result = GetParent(RootNode->Rc,TargetNode);
-	else result = GetParent(RootNode->Lc,TargetNode);
-	return result;
-}
-
-void Print_BinarySearchTree(Node root)
-{
-    if (root == nullptr) 
+void Print_BinarySearchTree(Node root) {
+    if (root == nullptr) {
         return;
-    
+    }
    	Print_BinarySearchTree(root->Lc);
     cout << root->Data << " ";
     Print_BinarySearchTree(root->Rc);
@@ -273,13 +285,6 @@ void DeleteBinarySearchTree(Node target)
 	DeleteBinarySearchTree(target->Rc);
 	delete target;
 }
-
-Tree MakeBinarySearchTree()
-{
-	Tree BinarySeachTree = new tree;
-	return BinarySeachTree;
-}
-
 void PrintMenu()
 {
 	printf("	============Menu============\n");
@@ -291,3 +296,7 @@ void PrintMenu()
 	printf("	6. Exit.\n");
 	printf("	============================\n");
 }
+
+
+
+

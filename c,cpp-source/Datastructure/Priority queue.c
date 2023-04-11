@@ -4,7 +4,7 @@
 #include<stdlib.h>
 
 /*
-	C언어로 우선순위 큐만들기 
+	C언어로 Priority queue만들기 
 	만든사람:taehyeon-park 
 	깃허브 : https://github.com/taehyoen-park/language-study/blob/master/c%2Ccpp-source/Datastructure/Priority%20queue.c
 */

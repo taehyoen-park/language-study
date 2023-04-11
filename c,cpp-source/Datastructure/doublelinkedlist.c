@@ -9,6 +9,7 @@
 	만든사람: taehyeon-park
 	깃 허브 :  https://github.com/taehyoen-park/language-study/blob/master/c%2Ccpp-source/Datastructure/doublelinkedlist.c
 */
+
 bool Power = true;
 typedef struct NODE{
 	struct NODE* llink;
