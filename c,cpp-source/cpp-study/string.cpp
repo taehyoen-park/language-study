@@ -22,7 +22,8 @@ int main()
 	//str.erase()
 	s.erase(0,5);
 	cout << "s = Hello, World, s.erase(0,5) = " << s << endl;
-	s = "Hello, World";/*
+	s = "Hello, World";
+	/*
 	s.erase(',');
 	cout << "s = Hello, World, s.erase(0,5) = " << s << endl;
 	s = "Hello, World";*/
