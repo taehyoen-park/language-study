@@ -35,8 +35,8 @@ void Print_AvlTree(node root,int choice);
 node GetMaxDepthNodeInRightSubtree(node& rSubTreeRoot);
 void RoateLL(avlTree& avltree, node& rootNode);
 void RoateRR(avlTree& avltree, node& rootNode);
-void RotateLR();
-void RotateRL(); 
+void RotateLR(avlTree& avltree, node& rootNodeLc, node& rootNode);
+void RotateRL(avlTree& avltree, node& rootNodeRc, node& rootNode); 
 void UpdateBalance(node& avltreeRoot,node& rootNode); 
 void UpdateHeight(node& avltreeRoot,node& rootNode); 	
 void CheckAvlTree(avlTree& avltree, node& rootNode);
@@ -103,7 +103,7 @@ int main()
 					targetNodeParent =  GetMaxDepthNodeInRightSubtree(avltree->root);
 				if(targetNodeParent == nullptr)
 				{
-					printf(" AvlTree is Empty\n");
+				//	printf(" AvlTree is Empty\n");
 					break;
 				}
 				BalancIngAvlTree(avltree, targetNodeParent);
@@ -354,17 +354,17 @@ node DeleteNode(node& rootNode,int data)
 	return rootNode;
 }
 
-// 오른쪽 서브트리에서 가장 깊이 있는 리프노드를 반환하는 함수 
-node GetMaxDepthNodeInRightSubtree(node& rSubTreeRoot)
+//가장 깊이 있는 리프노드를 반환하는 함수 
+node GetMaxDepthNodeInRightSubtree(node& SubTreeRoot)
 {
-	if(rSubTreeRoot == nullptr) return nullptr;
-	if(rSubTreeRoot->Rc == nullptr || rSubTreeRoot->Lc == nullptr) return rSubTreeRoot;
+	if(SubTreeRoot == nullptr) return nullptr;
+	if(SubTreeRoot->Rc == nullptr || SubTreeRoot->Lc == nullptr) return SubTreeRoot;
 	
-	if(rSubTreeRoot->Rc->height > rSubTreeRoot->Lc->height)
-		return GetMaxDepthNodeInRightSubtree(rSubTreeRoot->Rc);
-	else if(rSubTreeRoot->Rc->height < rSubTreeRoot->Lc->height)
-		return GetMaxDepthNodeInRightSubtree(rSubTreeRoot->Lc);
-	else return rSubTreeRoot;
+	if(SubTreeRoot->Rc->height > SubTreeRoot->Lc->height)
+		return GetMaxDepthNodeInRightSubtree(SubTreeRoot->Rc);
+	else if(SubTreeRoot->Rc->height < SubTreeRoot->Lc->height)
+		return GetMaxDepthNodeInRightSubtree(SubTreeRoot->Lc);
+	else return SubTreeRoot;
 		
 }
 
