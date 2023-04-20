@@ -14,7 +14,7 @@ int main()
 	s.insert(4);
 	s.insert(5);
 	s.insert(5);
-	
+	cout << ;
 	// set데이터 출력 
 	cout << "set : ";
 	for(auto& v : s)

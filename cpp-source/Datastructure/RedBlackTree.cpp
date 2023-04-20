@@ -105,20 +105,20 @@ int main()
 					else 
 					{
 						node minNodeParent = GetParent(RBT->root,minNode);
-						node minNodetemp = (minNodeParent == targetNode) ? minNode->Rc : minNodeParent->Lc;
 						node minNodeBrother = (minNodeParent == targetNode) ? minNodeParent->Lc : minNodeParent->Rc;		   
-			
 						if(minNode->Rc != nullptr)
 						{
 							RBT->root = DeleteNode(RBT->root,inputData);
+							minNode = (minNodeParent == targetNode) ? minNode : minNodeParent->Lc;
+							
 							// 삭제하고 새로 이어진 노드가 Red일 경우 Black으로 변경 ->red-and-black
-							if(minNodetemp->color == Red)
-								minNodetemp->color = Black;
+							if(minNode->color == Red)
+								minNode->color = Black;
 							else 
 							{
 								// 새로 이어진 노드가 Black일 경우 -> doublyblack
-								minNodetemp->color = DoublyBlack;
-								SolveDoublyBlack(RBT,minNodetemp,minNodeParent,minNodeBrother);
+								minNode->color = DoublyBlack;
+								SolveDoublyBlack(RBT,minNode,minNodeParent,minNodeBrother);
 							}	
 						}
 
