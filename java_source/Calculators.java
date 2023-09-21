@@ -1,11 +1,7 @@
 package java_source;
 
-public class Calculators {
-
-    public static void main(String arg[])
-    {
-        
-    }
+public class Calculators{
+     
     public int add(int a,int b)
     {
         return a + b;

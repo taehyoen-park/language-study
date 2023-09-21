@@ -5,7 +5,7 @@
 
 class Node;
 typedef Node* node;
-typedef bool Color;
+typedef int Color;
 
 enum eColor {
 	Red,
@@ -50,6 +50,6 @@ public:
 	void Insert(int inputData);
 	void Delete(int inputData);
 	void Clear();
-	bool Search(int inputData);
+	Node* find(int inputData);
 	int size() const;
 };

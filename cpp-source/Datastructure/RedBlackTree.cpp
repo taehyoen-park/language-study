@@ -4,7 +4,7 @@ class Node;
 class RedBlackTree;
 typedef Node* node;
 typedef RedBlackTree* redblacktree;
-typedef bool Color;
+typedef int Color;
 
 using namespace std;
 enum eColor{
@@ -32,7 +32,7 @@ public:
 
 void PrintMenu();
 node GetParent(node& rootNode, node& TargetNode);
-node GetRightSubTreeMinNode(node& rootNode);
+node GetLeftSubTreeMaxNode(node& rootNode);
 void Print_RedBlackTree(node root,int choice);
 void DeleteRedBlackTree(node rootNode);
 void SolveDoublyBlack(redblacktree& RBT,node& doublyNode,node& doublyParent,node& doublyBrother);
@@ -97,7 +97,7 @@ int main()
 				
 				if(targetNode->Lc != nullptr && targetNode->Rc != nullptr)
 				{
-					node minNode =  GetRightSubTreeMinNode(targetNode);
+					node minNode =  GetLeftSubTreeMaxNode(targetNode);
 					 
 					if(minNode->color == Red)
 						RBT->root = DeleteNode(RBT->root,inputData);
@@ -105,11 +105,11 @@ int main()
 					else 
 					{
 						node minNodeParent = GetParent(RBT->root,minNode);
-						node minNodeBrother = (minNodeParent == targetNode) ? minNodeParent->Lc : minNodeParent->Rc;		   
-						if(minNode->Rc != nullptr)
+						node minNodeBrother = (minNodeParent == targetNode) ? minNodeParent->Rc : minNodeParent->Lc;		   
+						if(minNode->Lc != nullptr)
 						{
 							RBT->root = DeleteNode(RBT->root,inputData);
-							minNode = (minNodeParent == targetNode) ? minNode : minNodeParent->Lc;
+							minNode = (minNodeParent == targetNode) ? minNodeParent->Lc : minNodeParent->Rc;
 							
 							// 삭제하고 새로 이어진 노드가 Red일 경우 Black으로 변경 ->red-and-black
 							if(minNode->color == Red)
@@ -583,9 +583,9 @@ node DeleteNode(node& rootNode,int data)
 	{
 		if(rootNode->Lc != nullptr && rootNode->Rc != nullptr)
 		{
-			node rightSubTreeMinNode = GetRightSubTreeMinNode(rootNode);
-			rootNode->data = rightSubTreeMinNode->data;
-			rootNode->Rc = DeleteNode(rootNode->Rc,rightSubTreeMinNode->data);
+			node leftSubTreeMaxNode = GetLeftSubTreeMaxNode(rootNode);
+			rootNode->data = leftSubTreeMaxNode->data;
+			rootNode->Lc = DeleteNode(rootNode->Lc,leftSubTreeMaxNode->data);
 		}
 		else
 		{
@@ -607,12 +607,12 @@ node GetParent(node& rootNode, node& TargetNode)
 	return result;
 }
 
-node GetRightSubTreeMinNode(node& rootNode)
+node GetLeftSubTreeMaxNode(node& rootNode)
 {
-	node RightSubTree_MinChild = rootNode->Rc;
-	while (RightSubTree_MinChild->Lc != nullptr)
-		RightSubTree_MinChild = RightSubTree_MinChild->Lc;
-	return RightSubTree_MinChild;
+	node LeftSubTree_MaxChild = rootNode->Lc;
+	while (LeftSubTree_MaxChild->Rc != nullptr)
+		LeftSubTree_MaxChild = LeftSubTree_MaxChild->Rc;
+	return LeftSubTree_MaxChild;
 }
 
 void Print_RedBlackTree(node root,int choice)
@@ -670,6 +670,3 @@ void PrintMenu()
 	printf("	8. Exit.\n");
 	printf("	============================\n");
 }
-
-
-

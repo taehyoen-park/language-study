@@ -412,7 +412,7 @@ void Print_AvlTree(node root,int choice)
 	switch(choice)
 	{
 		case 1: // 전위 순위 preorder
-			cout << root->data << " ";
+			cout << "값:" << root->data << "높이:" << root->balance << endl;;
 			Print_AvlTree(root->Lc,choice);
 			Print_AvlTree(root->Rc,choice);
 			break;
